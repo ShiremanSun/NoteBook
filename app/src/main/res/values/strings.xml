@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MemoryBook</string>
+    <string name="title_activity_edit">EditActivity</string>
+</resources>
