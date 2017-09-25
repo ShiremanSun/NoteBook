@@ -14,9 +14,8 @@ import java.util.List;
  */
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     private List<Note> noteList;
-
+    int i;
    private Context context;
-
     static class ViewHolder extends  RecyclerView.ViewHolder{
         TextView textView;
         View view;
@@ -28,6 +27,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     }
     public NoteAdapter(List<Note> note){
         noteList=note;
+        i=noteList.size();
     }
     @Override
     public NoteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,14 +41,19 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                context=v.getContext();
                if(context==YearActivity.yearActivity)
                {
-                   MonthActivity.actionStart(context,note);
+                 MonthActivity.actionStart(context,note);
+                  YearActivity.yearActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==MonthActivity.monthActivity){
                    DayActivity.actionStart(context,note);
+                   MonthActivity.monthActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==MainActivity.mainActivity){
-                   EditActivity.actionStart(context,note);
+                   LookActivity.actionStart(context,note);
+                   MainActivity.mainActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==DayActivity.dayActivity){
                    MainActivity.actionStart(context,note);
+                   DayActivity.dayActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }
+
             }
         });
         return  viewHolder;
@@ -57,8 +62,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     public void onBindViewHolder(NoteAdapter.ViewHolder holder, int position) {
         Note note=noteList.get(position);
        context=holder.view.getContext();
-        if(noteList.isEmpty()){
-            holder.textView.setText("无笔记");
+        if("无笔记".equals(note.getYear())){
+            holder.textView.setText("请添加一个笔记");
         } else  if(context==YearActivity.yearActivity) {
             holder.textView.setText(note.getYear());
         }else if(context==MonthActivity.monthActivity){
@@ -68,9 +73,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         }else if(context==MainActivity.mainActivity){
             holder.textView.setText(note.getTitle());
         }
-
-
-
         }
     @Override
     public int getItemCount() {

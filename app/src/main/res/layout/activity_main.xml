@@ -9,12 +9,7 @@
     android:clipToPadding="true"
     tools:context="com.example.droodsunny.memorybook.MainActivity">
 
-    <TextView
-        android:layout_marginTop="30dp"
-        android:text="点击空白处添加笔记"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
        android:layout_centerInParent="true"

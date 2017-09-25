@@ -9,9 +9,18 @@
     tools:context="com.example.droodsunny.memorybook.MonthActivity">
 
     <android.support.v7.widget.RecyclerView
+        android:transitionName="sharedView"
         android:id="@+id/monthRecycler"
         android:layout_centerInParent="true"
         android:layout_height="200dp"
         android:layout_width="200dp" />
+    <TextView
+
+        android:textSize="20dp"
+        android:ems="1"
+       android:layout_alignParentRight="true"
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

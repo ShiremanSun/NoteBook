@@ -1,0 +1,6 @@
+<root>
+  <item
+      name='android.support.v4.app.ActivityOptionsCompat android.support.v4.app.ActivityOptionsCompat makeSceneTransitionAnimation(android.app.Activity, android.support.v4.util.Pair&lt;android.view.View,java.lang.String&gt;...)'>
+    <annotation name='android.support.annotation.NonNull' />
+  </item>
+</root>

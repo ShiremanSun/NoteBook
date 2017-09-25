@@ -8,20 +8,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private LocationClient mLocationClient=null;
+
     private SharedPreferences preferences;
     private RecyclerView recyclerView=null;
     public String city=null;
@@ -37,14 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivity=this;
 
-        MyLocationListener myListener=new MyLocationListener();
-        mLocationClient=new LocationClient(this);
-        LocationClientOption option=new LocationClientOption();
-        option.setIsNeedAddress(true);
-        option.setAddrType("all");
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(myListener);
-        mLocationClient.start();
 
         month=getIntent().getStringExtra("month");
         year=getIntent().getStringExtra("year");
@@ -54,39 +40,6 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
-
-    }
-    /*点击空白区域添加笔记*/
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction()==MotionEvent.ACTION_DOWN){
-            noteList.clear();
-            Intent intent=new Intent(MainActivity.this,EditActivity.class);
-            startActivity(intent);
-            return super.onTouchEvent(event);
-        }
-        if(event.getAction()==MotionEvent.ACTION_UP){
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
-    /*
-            * 实现定位功能*/
-    private class MyLocationListener implements BDLocationListener{
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            try{
-                city= bdLocation.getCity();
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-    @Override
-    protected void onDestroy() {
-        mLocationClient.stop();
-        super.onDestroy();
     }
 
 /*沉浸式状态栏*/
@@ -116,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void actionStart(Context context, Note note){
         Intent intent= new Intent(context,MainActivity.class);
-
         intent.putExtra("title",note.getTitle());
         intent.putExtra("year",note.getYear());
         intent.putExtra("month",note.getMonth());
@@ -124,5 +76,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("content",note.getContent());
         intent.putExtra("location",note.getLocation());
         context.startActivity(intent);
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 }

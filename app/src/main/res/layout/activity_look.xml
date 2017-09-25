@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_look"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.example.droodsunny.memorybook.LookActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10">
+            <EditText
+                android:background="@null"
+                android:id="@+id/update_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ScrollView
+                android:layout_below="@id/update_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:background="@null"
+                    android:id="@+id/update_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </ScrollView>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <EditText
+                android:layout_gravity="bottom"
+                android:background="@null"
+                android:id="@+id/update_location"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/update_note"
+                    android:layout_width="40dp"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/save"
+                    android:layout_height="40dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_weight="10"
+    android:layout_height="0dp">
+
+
+    <TextView
+        android:textSize="20dp"
+        android:ems="1"
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/location"
+        android:textSize="20dp"
+        android:ems="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/date"
+        android:layout_toEndOf="@+id/date" />
+    <TextView
+        android:ems="1"
+        android:layout_alignParentRight="true"
+        android:textSize="20dp"
+        android:id="@+id/titlel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+   <ScrollView
+       android:scrollbarAlwaysDrawHorizontalTrack="false"
+    android:layout_toRightOf="@id/location"
+    android:layout_toLeftOf="@id/titlel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.example.droodsunny.memorybook.TextViewVertical
+        android:layout_gravity="right"
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </ScrollView>
+    <!--<com.example.droodsunny.memorybook.TextViewVertical
+        android:layout_toLeftOf="@id/titlel"
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />-->
+
+</RelativeLayout>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_below="@id/relative"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageButton
+
+                android:id="@+id/update"
+                android:background="@drawable/update"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="40dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/delete"
+                android:layout_height="40dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
