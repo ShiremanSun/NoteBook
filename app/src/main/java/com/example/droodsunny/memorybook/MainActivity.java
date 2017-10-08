@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -24,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private String year;
     private String day;
    public static MainActivity mainActivity;
+
+    private long exitTime = 0;
+
+    private int count = 0;
+    // 第一次点击的时间 long型
+    private long firstClick = 0;
+    // 最后一次点击的时间
+    private long lastClick = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +90,50 @@ public class MainActivity extends AppCompatActivity {
 
     }
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                DayActivity.dayActivity.finish();
+                MonthActivity.monthActivity.finish();
+                YearActivity.yearActivity.finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (firstClick != 0 && System.currentTimeMillis() - firstClick > 500) {
+                count = 0;
+            }
+            count++;
+            if (count == 1) {
+                firstClick = System.currentTimeMillis();
+            } else if (count == 2) {
+                lastClick = System.currentTimeMillis();
+                // 两次点击小于500ms 也就是连续点击
+                if (lastClick - firstClick < 500) {
+                    //Log.v("Double", "Double");
+                    count = 0;
+                    firstClick = 0;
+                    lastClick = 0;
+                    finish();
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                }
+            }
+
+        }
+        return false;
     }
 }
+

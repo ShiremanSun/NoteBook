@@ -14,74 +14,85 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
         <RelativeLayout
             android:id="@+id/edit_relativelayout"
-            android:layout_width="wrap_content"
-            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:layout_weight="7"
             android:layout_height="match_parent">
             <EditText
-                android:textSize="30dp"
-                android:background="@null"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="20sp"
+
+                android:background="@drawable/editbake"
                 android:hint="此处添加标题"
                 android:id="@+id/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 />
-
-            <TextView
-                android:id="@+id/empty"
+            <ScrollView
+                android:fillViewport="true"
                 android:layout_below="@id/edit_title"
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
-            <EditText
-                android:textSize="30dp"
-                android:background="@null"
-                android:hint="此处撰写内容"
-                android:id="@+id/edit_content"
-                android:gravity="start"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/empty"
-                />
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <EditText
+
+                        android:paddingLeft="10dp"
+                        android:textSize="20sp"
+                        android:textCursorDrawable="@drawable/cursor"
+                        android:hint="此处撰写内容"
+                        android:id="@+id/edit_content"
+                        android:gravity="start"
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </LinearLayout>
+            </ScrollView>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent">
-            <TextView
-                android:ems="1"
-                android:text="  "
-                android:textSize="20dp"
-                android:id="@+id/city"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                />
-            <TextView
-                android:layout_weight="1"
-                android:ems="1"
-                android:layout_centerHorizontal="true"
-                android:text="  "
-                android:textSize="20dp"
-                android:layout_toRightOf="@id/city"
-                android:id="@+id/date"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                />
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:ems="1"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    />
+                <TextView
+                    android:gravity="center"
+                    android:ems="1"
+                    android:textSize="20sp"
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    />
+            </LinearLayout>
             <ImageButton
-
-                android:background="@drawable/save"
-
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ima_save_pre"
                 android:id="@+id/addNote"
                 android:layout_centerVertical="true"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                />
         </RelativeLayout>
-
     </LinearLayout>
-
 </LinearLayout>

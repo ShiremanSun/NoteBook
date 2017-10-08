@@ -2,26 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_day"
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     tools:context="com.example.droodsunny.memorybook.DayActivity">
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dayRecycler"
         android:layout_centerInParent="true"
-        android:layout_height="200dp"
-        android:layout_width="200dp" />
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
     <TextView
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:ems="1"
         android:layout_alignParentRight="true"
         android:id="@+id/year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:ems="1"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"

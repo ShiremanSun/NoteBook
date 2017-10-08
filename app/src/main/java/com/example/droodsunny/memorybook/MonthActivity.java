@@ -9,8 +9,11 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -30,6 +33,13 @@ public class MonthActivity extends AppCompatActivity {
     public List<Note> noteList = null;
     private String year;
     public TextView textView;
+    private int count = 0;
+    // 第一次点击的时间 long型
+    private long firstClick = 0;
+    // 最后一次点击的时间
+    private long lastClick = 0;
+
+    private long exitTime = 0;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -41,6 +51,8 @@ public class MonthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month);
 
+
+
         monthActivity = this;
         textView = (TextView) findViewById(R.id.year);
 
@@ -51,18 +63,13 @@ public class MonthActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         year = getIntent().getStringExtra("year");
-        textView.setText(year);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(MonthActivity.this, YearActivity.class);
-               // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//关掉所要到的界面的activity
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MonthActivity.this,recyclerView,"sharedView").toBundle());
-                }*/
                 finish();
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -92,10 +99,11 @@ public class MonthActivity extends AppCompatActivity {
         intent.putExtra("year", note.getYear());
         context.startActivity(intent);
     }
+
     private void ListTitle() {
         noteList = DataSupport.where("year = ?", year).find(Note.class);
-        for ( int i = 0 ; i < noteList.size() - 1 ; i ++ ) {
-            for ( int j = noteList.size() - 1 ; j > i; j -- ) {
+        for (int i = 0; i < noteList.size() - 1; i++) {
+            for (int j = noteList.size() - 1; j > i; j--) {
                 if (noteList.get(j).getMonth().equals(noteList.get(i).getMonth())) {
                     noteList.remove(j);
                 }
@@ -104,21 +112,47 @@ public class MonthActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (firstClick != 0 && System.currentTimeMillis() - firstClick > 500) {
+                count = 0;
+            }
+            count++;
+            if (count == 1) {
+                firstClick = System.currentTimeMillis();
+            } else if (count == 2) {
+                lastClick = System.currentTimeMillis();
+                // 两次点击小于500ms 也就是连续点击
+                if (lastClick - firstClick < 500) {
+                    //Log.v("Double", "Double");
+                    count = 0;
+                    firstClick = 0;
+                    lastClick = 0;
+                    finish();
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+
+        }
+        return false;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         ListTitle();
-        if(noteList.size()==0){
-            Note note = new Note("无笔记","无笔记","无笔记","无笔记","无笔记","无笔记");
+        if (noteList.size() == 0) {
+            Note note = new Note("无笔记", "无笔记", "无笔记", "无笔记", "无笔记", "无笔记");
             noteList.add(note);
             NoteAdapter noteAdapter;
             noteAdapter = new NoteAdapter(noteList);
             recyclerView.setAdapter(noteAdapter);
-        }
-        else {
+        } else {
             NoteAdapter noteAdapter;
             noteAdapter = new NoteAdapter(noteList);
             recyclerView.setAdapter(noteAdapter);
         }
+        textView.setText(year);
     }
 
     /**
@@ -156,9 +190,23 @@ public class MonthActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(MonthActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+
+                finish();
+                YearActivity.yearActivity.finish();
+
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

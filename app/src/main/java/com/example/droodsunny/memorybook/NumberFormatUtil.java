@@ -64,14 +64,18 @@ public class NumberFormatUtil {
             boolean isZero = n == 0;
             String unit = units[(len - 1) - i];
             if (isZero) {
-                if ('0' == val[i - 1]) {
+                if ('0' == val[i]) {
                     continue;
                 } else {
                     sb.append(numArray[n]);
                 }
             } else {
-                sb.append(numArray[n]);
-                sb.append(unit);
+                if(n==1&&len==2){
+                    sb.append(unit);
+                }else {
+                    sb.append(numArray[n]);
+                    sb.append(unit);
+                }
             }
         }
         return sb.toString();

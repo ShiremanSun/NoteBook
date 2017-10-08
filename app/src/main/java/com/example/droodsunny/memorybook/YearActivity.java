@@ -9,9 +9,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
@@ -29,9 +32,11 @@ public class YearActivity extends AppCompatActivity {
     public String city=null;
     private TextView textView;
     private ImageButton imageButton;
+    private LinearLayout linearLayout;
+    private long firstTime = 0;
+    private long exitTime = 0;
 
 
-    private static final int BAIDU_READ_PHONE_STATE =100;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -50,11 +55,10 @@ public class YearActivity extends AppCompatActivity {
             }
         }*/
 
+
         textView=(TextView)findViewById(R.id.text);
         imageButton=(ImageButton)findViewById(R.id.addImg);
 
-
-        Initdata();
 
 
         recyclerView=(RecyclerView)findViewById(R.id.yearRecycler);
@@ -66,16 +70,20 @@ public class YearActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(YearActivity.this,AddActivity.class);
-                noteList.clear();
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 
 
+
     }
 
 
+
+
+
+    /*去除noteList年份重复的元素*/
     private void ListTitle(){
         noteList= DataSupport.findAll(Note.class);
         for ( int i = 0 ; i < noteList.size() - 1 ; i ++ ) {
@@ -104,6 +112,8 @@ public class YearActivity extends AppCompatActivity {
         }
     }
 
+
+
     /*沉浸式状态栏*/
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -119,41 +129,20 @@ public class YearActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction()==MotionEvent.ACTION_DOWN){
-            noteList.clear();
-            Intent intent=new Intent(YearActivity.this,AddActivity.class);
-            startActivity(intent);
-            return super.onTouchEvent(event);
-        }
-        if(event.getAction()==MotionEvent.ACTION_UP){
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }*/
-
-    public void Initdata(){
-         /*第一次运行APP时初始化数据*/
-        preferences = getSharedPreferences("count", MODE_PRIVATE);
-        int count = preferences.getInt("count", 0);
-        if(count==0){
-            Note note= new Note("二零一七年","九月","二十三日","第一篇笔记","第一篇笔记","大连");
-            note.save();
-            Note note1=new Note("二零一六年","九月","二十二日","第一篇笔记","第一篇笔记","大连");
-            note1.save();
-        }
-        SharedPreferences.Editor editor = preferences.edit();
-        //存入数据
-        editor.putInt("count", ++count);
-        //提交修改
-        editor.commit();
-
-    }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(YearActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

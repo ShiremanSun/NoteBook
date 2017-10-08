@@ -42,15 +42,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                if(context==YearActivity.yearActivity)
                {
                  MonthActivity.actionStart(context,note);
+
                   YearActivity.yearActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==MonthActivity.monthActivity){
                    DayActivity.actionStart(context,note);
+
                    MonthActivity.monthActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==MainActivity.mainActivity){
                    LookActivity.actionStart(context,note);
                    MainActivity.mainActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }else if(context==DayActivity.dayActivity){
                    MainActivity.actionStart(context,note);
+
                    DayActivity.dayActivity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                }
 
