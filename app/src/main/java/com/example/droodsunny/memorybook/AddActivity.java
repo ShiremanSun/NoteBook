@@ -95,9 +95,6 @@ public class AddActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
     /*安卓6.0以上系统获取权限*/
     public void showContacts(){
@@ -172,7 +169,7 @@ public class AddActivity extends AppCompatActivity {
         option.setIsNeedAddress(true);
         option.setAddrType("all");
         mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(myListener);
+       mLocationClient.registerLocationListener(myListener);
         mLocationClient.start();
     }
     @Override

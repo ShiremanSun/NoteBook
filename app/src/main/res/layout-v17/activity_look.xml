@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_look"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/background"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.example.droodsunny.memorybook.LookActivity"
+   >
+    <RelativeLayout
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_weight="10"
+    android:layout_height="0dp">
+    <TextView
+        android:textSize="20sp"
+        android:ems="1"
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/location"
+        android:textSize="20sp"
+        android:ems="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/date"
+        android:layout_toEndOf="@+id/date" />
+    <TextView
+        android:ems="1"
+        android:layout_alignParentRight="true"
+        android:textSize="20sp"
+        android:id="@+id/titlel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+   <HorizontalScrollView
+       android:overScrollMode="never"
+
+       android:scrollbars="none"
+       android:fillViewport="true"
+       android:layout_toRightOf="@id/location"
+       android:layout_toLeftOf="@id/titlel"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent">
+    <com.example.droodsunny.memorybook.Util.TextViewVertical
+        android:layout_gravity="end"
+        android:textDirection="rtl"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    </HorizontalScrollView>
+</RelativeLayout>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_below="@id/relative"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/update"
+                android:background="@drawable/img_up_pre"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="30dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/img_dele_pre"
+                android:layout_height="30dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+

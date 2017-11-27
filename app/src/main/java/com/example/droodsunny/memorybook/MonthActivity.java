@@ -1,5 +1,6 @@
 package com.example.droodsunny.memorybook;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import static com.example.droodsunny.memorybook.R.id.monthRecycler;
 
 public class MonthActivity extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
     public static MonthActivity monthActivity;
     private RecyclerView recyclerView;
     public List<Note> noteList = null;
@@ -36,8 +38,6 @@ public class MonthActivity extends AppCompatActivity {
     private int count = 0;
     // 第一次点击的时间 long型
     private long firstClick = 0;
-    // 最后一次点击的时间
-    private long lastClick = 0;
 
     private long exitTime = 0;
     /**
@@ -51,12 +51,8 @@ public class MonthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month);
 
-
-
         monthActivity = this;
         textView = (TextView) findViewById(R.id.year);
-
-
         recyclerView = (RecyclerView) findViewById(monthRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -93,7 +89,6 @@ public class MonthActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-
     public static void actionStart(Context context, Note note) {
         Intent intent = new Intent(context, MonthActivity.class);
         intent.putExtra("year", note.getYear());
@@ -110,7 +105,6 @@ public class MonthActivity extends AppCompatActivity {
             }
         }
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -121,7 +115,7 @@ public class MonthActivity extends AppCompatActivity {
             if (count == 1) {
                 firstClick = System.currentTimeMillis();
             } else if (count == 2) {
-                lastClick = System.currentTimeMillis();
+                long lastClick = System.currentTimeMillis();
                 // 两次点击小于500ms 也就是连续点击
                 if (lastClick - firstClick < 500) {
                     //Log.v("Double", "Double");
@@ -198,12 +192,10 @@ public class MonthActivity extends AppCompatActivity {
                 Toast.makeText(MonthActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-
                 finish();
                 YearActivity.yearActivity.finish();
 
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
             }
             return true;
         }

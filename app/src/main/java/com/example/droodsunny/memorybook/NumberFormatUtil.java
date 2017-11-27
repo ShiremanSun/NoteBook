@@ -70,7 +70,7 @@ public class NumberFormatUtil {
                     sb.append(numArray[n]);
                 }
             } else {
-                if(n==1&&len==2){
+                if(n==1&&(len-i)==2){
                     sb.append(unit);
                 }else {
                     sb.append(numArray[n]);

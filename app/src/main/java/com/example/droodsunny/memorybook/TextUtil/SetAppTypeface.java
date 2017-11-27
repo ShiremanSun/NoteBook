@@ -9,13 +9,11 @@ import com.example.droodsunny.memorybook.Note;
 import org.litepal.LitePal;
 
 import java.lang.reflect.Field;
-
 /**
  * Created by DroodSunny on 2017/9/27.
  */
 public class SetAppTypeface extends Application {
     public static Typeface typeFace;
-
     private SharedPreferences preferences;
 
     @Override

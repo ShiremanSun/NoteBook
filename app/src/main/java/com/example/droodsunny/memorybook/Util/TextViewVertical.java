@@ -175,7 +175,6 @@ public class TextViewVertical extends View {
             paint.getTextWidths("正", widths);//获取单个汉字的宽度
             mLineWidth = (int) Math.ceil(widths[0] * 1.1 + 2);
         }
-
         FontMetrics fm = paint.getFontMetrics();
         mFontHeight = (int) (Math.ceil(fm.descent - fm.top) * 0.9);// 获得字体高度
         //计算文字行数

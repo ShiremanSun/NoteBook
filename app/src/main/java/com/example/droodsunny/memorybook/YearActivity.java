@@ -59,8 +59,6 @@ public class YearActivity extends AppCompatActivity {
         textView=(TextView)findViewById(R.id.text);
         imageButton=(ImageButton)findViewById(R.id.addImg);
 
-
-
         recyclerView=(RecyclerView)findViewById(R.id.yearRecycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

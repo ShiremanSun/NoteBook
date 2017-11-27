@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.droodsunny.memorybook">
 
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -26,26 +27,24 @@
         android:icon="@mipmap/memory"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="InnerclassSeparator">
         <activity android:name=".open">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="QDnzMbbTHuKbnNSsRZS17PS4Lzz4bp7A" />
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
         <activity android:name=".AddActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+        </activity>
         <activity android:name=".MonthActivity" />
         <activity android:name=".DayActivity" />
         <!--
@@ -55,8 +54,13 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <activity android:name=".LookActivity" />
-        <activity android:name=".YearActivity"></activity>
+        <activity android:name=".LookActivity">
+        </activity>
+        <activity android:name=".YearActivity">
+        </activity>
+        <activity android:name=".UpdateActivity">
+
+        </activity>
     </application>
 
 </manifest>

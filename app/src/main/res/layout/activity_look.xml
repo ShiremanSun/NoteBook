@@ -8,85 +8,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    tools:context="com.example.droodsunny.memorybook.LookActivity">
-    <LinearLayout
-        android:animateLayoutChanges="true"
-        android:visibility="gone"
-        android:layoutAnimation="@anim/layoutanimotion"
-        android:orientation="vertical"
-        android:id="@+id/linear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10">
-            <EditText
-                android:background="@drawable/editbake"
-                android:textCursorDrawable="@drawable/cursor"
-                android:id="@+id/update_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/empty"
-                android:layout_below="@id/update_title"
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-            <LinearLayout
-                android:layout_below="@id/empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <ScrollView
-                    android:fillViewport="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <EditText
-                            android:gravity="top"
-                            android:id="@+id/update_content"
-                            android:layout_width="match_parent"
-                            android:background="@drawable/editbake"
-                            android:textCursorDrawable="@drawable/cursor"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                </ScrollView>
-            </LinearLayout>
-        </RelativeLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <EditText
-                android:layout_gravity="bottom"
-                android:background="@null"
-                android:id="@+id/update_location"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-                <ImageButton
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/update_note"
-                    android:layout_width="30dp"
-                    android:scaleType="fitXY"
-                    android:background="@drawable/ima_save_pre"
-                    android:layout_height="30dp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context="com.example.droodsunny.memorybook.LookActivity"
+   >
     <RelativeLayout
     android:id="@+id/relative"
     android:layout_width="match_parent"
@@ -118,13 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
    <HorizontalScrollView
-       android:scrollbarAlwaysDrawHorizontalTrack="false"
+       android:overScrollMode="never"
+
+       android:scrollbars="none"
+       android:fillViewport="true"
        android:layout_toRightOf="@id/location"
        android:layout_toLeftOf="@id/titlel"
-       android:layout_width="match_parent"
+       android:layout_width="wrap_content"
        android:layout_height="match_parent">
     <com.example.droodsunny.memorybook.Util.TextViewVertical
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:textDirection="rtl"
         android:id="@+id/content"
         android:layout_width="wrap_content"
@@ -184,4 +110,4 @@
     </LinearLayout>
 
 </LinearLayout>
-</LinearLayout>
+

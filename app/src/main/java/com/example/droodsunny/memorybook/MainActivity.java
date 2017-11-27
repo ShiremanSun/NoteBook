@@ -19,15 +19,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static MainActivity mainActivity;
+    public String city = null;
+    public List<Note> noteList = null;
     private SharedPreferences preferences;
-    private RecyclerView recyclerView=null;
-    public String city=null;
-    public List<Note> noteList=null;
+    private RecyclerView recyclerView = null;
     private String month;
     private String year;
     private String day;
-   public static MainActivity mainActivity;
-
     private long exitTime = 0;
 
     private int count = 0;
@@ -35,25 +34,38 @@ public class MainActivity extends AppCompatActivity {
     private long firstClick = 0;
     // 最后一次点击的时间
     private long lastClick = 0;
+
+    public static void actionStart(Context context, Note note) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("title", note.getTitle());
+        intent.putExtra("year", note.getYear());
+        intent.putExtra("month", note.getMonth());
+        intent.putExtra("day", note.getDay());
+        intent.putExtra("content", note.getContent());
+        intent.putExtra("location", note.getLocation());
+        context.startActivity(intent);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivity=this;
+        mainActivity = this;
 
 
-        month=getIntent().getStringExtra("month");
-        year=getIntent().getStringExtra("year");
-        day=getIntent().getStringExtra("day");
+        month = getIntent().getStringExtra("month");
+        year = getIntent().getStringExtra("year");
+        day = getIntent().getStringExtra("day");
 
-        recyclerView=(RecyclerView)findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
     }
 
-/*沉浸式状态栏*/
+    /*沉浸式状态栏*/
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -68,31 +80,23 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-    private void ListTitle(){
-        noteList= DataSupport.where("year = ? and month = ? and day = ?",year,month,day).find(Note.class);
+
+    private void ListTitle() {
+        noteList = DataSupport.where("year = ? and month = ? and day = ?", year, month, day).find(Note.class);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         ListTitle();
-        NoteAdapter noteAdapter=new NoteAdapter(noteList);
+        NoteAdapter noteAdapter = new NoteAdapter(noteList);
         recyclerView.setAdapter(noteAdapter);
     }
-    public static void actionStart(Context context, Note note){
-        Intent intent= new Intent(context,MainActivity.class);
-        intent.putExtra("title",note.getTitle());
-        intent.putExtra("year",note.getYear());
-        intent.putExtra("month",note.getMonth());
-        intent.putExtra("day",note.getDay());
-        intent.putExtra("content",note.getContent());
-        intent.putExtra("location",note.getLocation());
-        context.startActivity(intent);
 
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis()-exitTime) > 2000){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
@@ -107,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
     @Override
@@ -128,12 +131,15 @@ public class MainActivity extends AppCompatActivity {
                     firstClick = 0;
                     lastClick = 0;
                     finish();
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
 
         }
         return false;
     }
+
+
+
 }
 

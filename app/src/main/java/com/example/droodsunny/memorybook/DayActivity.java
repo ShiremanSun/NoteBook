@@ -22,8 +22,6 @@ public class DayActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     public static DayActivity dayActivity;
     public List<Note> noteList=null;
-    private TextView text_year;
-    private TextView text_month;
     private String month;
     private String year;
     private long exitTime = 0;
@@ -40,8 +38,8 @@ public class DayActivity extends AppCompatActivity {
         dayActivity=this;
 
 
-        text_year=(TextView)findViewById(R.id.year);
-        text_month=(TextView)findViewById(R.id.month);
+        TextView text_year = (TextView) findViewById(R.id.year);
+        TextView text_month = (TextView) findViewById(R.id.month);
         month=getIntent().getStringExtra("month");
         year=getIntent().getStringExtra("year");
         text_year.setText(year);

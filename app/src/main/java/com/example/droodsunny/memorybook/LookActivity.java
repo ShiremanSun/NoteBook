@@ -1,16 +1,15 @@
 package com.example.droodsunny.memorybook;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.droodsunny.memorybook.Util.TextViewVertical;
@@ -21,6 +20,8 @@ import java.util.List;
 
 public class LookActivity extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
+    public static LookActivity sLookActivity;
     private TextView date_text;
     private TextView location_text;
     private TextViewVertical content_text;
@@ -28,12 +29,8 @@ public class LookActivity extends AppCompatActivity {
     private ImageButton image_update;
     private ImageButton image_delete;
 
-    private ImageButton save_update;
-    private LinearLayout linearLayout;
-    private EditText update_title;
-    private EditText update_content;
-    private EditText update_location;
-    private RelativeLayout relativeLayout;
+    private int id;
+
 
     private int count = 0;
     // 第一次点击的时间 long型
@@ -45,46 +42,31 @@ public class LookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look);
-        linearLayout=(LinearLayout)findViewById(R.id.linear);
-
-
+        sLookActivity=this;
         date_text=(TextView)findViewById(R.id.date);
         location_text=(TextView)findViewById(R.id.location);
         content_text=(TextViewVertical)findViewById(R.id.content);
         title_text=(TextView)findViewById(R.id.titlel);
         image_update=(ImageButton)findViewById(R.id.update);
         image_delete=(ImageButton)findViewById(R.id.delete);
-        save_update=(ImageButton)findViewById(R.id.update_note);
+
         content_text.setTextSize(60);
 
-       // Typeface face=Typeface.createFromAsset(getAssets(),"fonts/textK.ttf");
-       // content_text.setTypeface(face);
         content_text.setLineWidth(100);
 
-        save_update=(ImageButton)findViewById(R.id.update_note);
-        update_title=(EditText)findViewById(R.id.update_title);
-        update_content=(EditText)findViewById(R.id.update_content);
-        update_location=(EditText)findViewById(R.id.update_location);
-       relativeLayout=(RelativeLayout)findViewById(R.id.relative);
+        final String date=getIntent().getStringExtra("year")+getIntent().getStringExtra("month")+getIntent().getStringExtra("day");
+        final String location=getIntent().getStringExtra("location");
+        final String content=getIntent().getStringExtra("content");
+        final String title=getIntent().getStringExtra("title");
 
-
-        String date=getIntent().getStringExtra("year")+getIntent().getStringExtra("month")+getIntent().getStringExtra("day");
-        String location=getIntent().getStringExtra("location");
-        String content=getIntent().getStringExtra("content");
-        String title=getIntent().getStringExtra("title");
-
-        List<Note> id= DataSupport.select("id").where("year = ? and month = ? and day = ? and title = ?",
+        List<Note> NoteId= DataSupport.select("id").where("year = ? and month = ? and day = ? and title = ?",
                 getIntent().getStringExtra("year"),getIntent().getStringExtra("month"),getIntent().getStringExtra("day"),getIntent().getStringExtra("title")).find(Note.class);
-
+         id=NoteId.get(0).getId();
         date_text.setText(date);
-
         location_text.setText(location);
-
         content_text.setText(content);
         title_text.setText(title);
-        update_title.setText(title);
-        update_content.setText(content);
-        update_location.setText(location);
+
 
         image_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,44 +78,17 @@ public class LookActivity extends AppCompatActivity {
             }
         });
 
-        image_update.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
         image_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                relativeLayout.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.VISIBLE);
-                update_title.clearFocus();
-                update_content.requestFocus();
-                String contents=update_content.getText().toString();
-                update_content.setSelection(contents.length());
-            }
-        });
-
-
-        save_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String updatecontent=update_content.getText().toString();
-                String updatetitle=update_title.getText().toString();
-                String updatelocation=update_location.getText().toString();
-                Note note = new Note();
-                note.setContent(updatecontent);
-                note.setTitle(updatetitle);
-                note.setLocation(updatelocation);
-                note.updateAll("year = ? and month = ? and day = ? and title = ? ",
-                        getIntent().getStringExtra("year"),getIntent().getStringExtra("month"),getIntent().getStringExtra("day"),getIntent().getStringExtra("title"));
-                linearLayout.setVisibility(View.GONE);
-
-                location_text.setText(updatelocation);
-                content_text.setText(updatecontent);
-                title_text.setText(updatetitle);
-                relativeLayout.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(LookActivity.this,UpdateActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("date",date);
+                intent.putExtra("title",title);
+                intent.putExtra("content",content);
+                intent.putExtra("location",location);
+                startActivityForResult(intent,1);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
     }
@@ -150,14 +105,9 @@ public class LookActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(linearLayout.getVisibility()==View.VISIBLE){
-            linearLayout.setVisibility(View.GONE);
-            relativeLayout.setVisibility(View.VISIBLE);
-
-        }else {
             super.onBackPressed();
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        }
+
     }
     /*沉浸式状态栏*/
     @Override
@@ -174,7 +124,7 @@ public class LookActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-     /*双击返回*/
+    /*双击返回*/
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -199,5 +149,27 @@ public class LookActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d("LookActivity","onActivity");
+        switch (requestCode){
+            case 1:
+                if(resultCode==RESULT_OK){
+                    String title=data.getStringExtra("return_title");
+                    String content=data.getStringExtra("return_content");
+                    String location=data.getStringExtra("return_location");
+                    location_text.setText(location);
+                    content_text.setText(content);
+                    title_text.setText(title);
+                }
+        }
+    }
+    @Override
+    protected void onResume() {
+        Log.d("LookActivity","onResume");
+
+        super.onResume();
     }
 }
