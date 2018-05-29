@@ -56,7 +56,8 @@
             android:value="@integer/google_play_services_version" />
         <activity android:name=".LookActivity">
         </activity>
-        <activity android:name=".YearActivity">
+        <activity android:name=".YearActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".UpdateActivity">
 

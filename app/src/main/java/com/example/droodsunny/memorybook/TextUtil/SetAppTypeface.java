@@ -15,11 +15,10 @@ import java.lang.reflect.Field;
 public class SetAppTypeface extends Application {
     public static Typeface typeFace;
     private SharedPreferences preferences;
-
     @Override
     public void onCreate() {
         super.onCreate();
-
+       //LitePal数据库初始化
         LitePal.initialize(this);
         Initdata();
         setTypeface();
@@ -44,7 +43,6 @@ public class SetAppTypeface extends Application {
     }
     public void Initdata(){
          /*第一次运行APP时初始化数据*/
-
         String notice="由于此应用程序需要获取使用者所在城市，所以请打开设备的网络连接授予应用获取位置的权限。" +"\n"+
                 "此应用操作简单，双击空白处返回上一级，双击返回键退出应用。" +"\n"+
                 "使用愉快！";
@@ -81,7 +79,8 @@ public class SetAppTypeface extends Application {
         //存入数据
         editor.putInt("count", ++count);
         //提交修改
-        editor.commit();
+        editor.apply();
+        //editor.commit();
 
     }
 

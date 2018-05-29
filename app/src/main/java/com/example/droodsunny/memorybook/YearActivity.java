@@ -46,6 +46,8 @@ public class YearActivity extends AppCompatActivity {
         yearActivity=this;
         db= LitePal.getDatabase();
 
+
+
        /* mLocationClient = new LocationClient(this);
         if(Build.VERSION.SDK_INT>=23) {
             if (YearActivity.this.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -64,6 +66,8 @@ public class YearActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
+
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,9 +80,6 @@ public class YearActivity extends AppCompatActivity {
 
 
     }
-
-
-
 
 
     /*去除noteList年份重复的元素*/
@@ -109,9 +110,6 @@ public class YearActivity extends AppCompatActivity {
             recyclerView.setAdapter(noteAdapter);
         }
     }
-
-
-
     /*沉浸式状态栏*/
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -128,6 +126,9 @@ public class YearActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
@@ -137,10 +138,15 @@ public class YearActivity extends AppCompatActivity {
             } else {
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
             }
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        yearActivity=null;
     }
 }

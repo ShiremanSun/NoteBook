@@ -22,7 +22,6 @@
             <EditText
                 android:textCursorDrawable="@drawable/cursor"
                 android:textSize="20sp"
-
                 android:background="@drawable/editbake"
                 android:hint="此处添加标题"
                 android:id="@+id/edit_title"
@@ -30,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 />
+            <!--可以随着键盘弹出上移-->
             <ScrollView
                 android:fillViewport="true"
                 android:layout_below="@id/edit_title"
@@ -54,7 +54,6 @@
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_weight="1"
             android:layout_width="0dp"

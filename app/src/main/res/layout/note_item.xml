@@ -8,6 +8,7 @@
     <TextView
         android:gravity="center"
         android:textSize="20sp"
+
         android:id="@+id/text"
         android:lineSpacingExtra="2dp"
         android:ems="1"

@@ -201,4 +201,10 @@ public class MonthActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        monthActivity=null;
+    }
 }

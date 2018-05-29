@@ -42,13 +42,14 @@ public class DayActivity extends AppCompatActivity {
         TextView text_month = (TextView) findViewById(R.id.month);
         month=getIntent().getStringExtra("month");
         year=getIntent().getStringExtra("year");
+
         text_year.setText(year);
         text_month.setText(month);
         text_year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(DayActivity.this,YearActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//关掉所要到的界面所有的的activity
+               // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//关掉所要到的界面所有的的activity
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
@@ -164,5 +165,11 @@ public class DayActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dayActivity=null;
     }
 }

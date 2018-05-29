@@ -1,5 +1,6 @@
 package com.example.droodsunny.memorybook.Util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,7 +14,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.droodsunny.memorybook.LookActivity;
+import com.example.droodsunny.memorybook.R;
 
 /**
  * Created by DroodSunny on 2017/9/25.
@@ -22,6 +27,8 @@ import android.view.View;
 public class TextViewVertical extends View {
 
     public static final int LAYOUT_CHANGED = 1;
+
+    private Context context;
     private Paint paint;
     private int mTextPosx = 0;// x坐标
     private int mTextPosy = 0;// y坐标
@@ -37,6 +44,9 @@ public class TextViewVertical extends View {
     private Typeface typeface;
     private Handler mHandler = null;
     private Matrix matrix;
+    private long firstClick=0;
+    private int count=0;
+    private long lastClick=0;
     private Align textStartAlign = Align.RIGHT;//draw start left or right.//default right
     BitmapDrawable drawable = (BitmapDrawable) getBackground();
 
@@ -46,6 +56,7 @@ public class TextViewVertical extends View {
 
     public TextViewVertical(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
         typeface=Typeface.createFromAsset(context.getAssets(),"fonts/textK.ttf");
         matrix = new Matrix();
         paint = new Paint();//新建画笔
@@ -76,32 +87,27 @@ public class TextViewVertical extends View {
         this.TextLength = text.length();
         if (mTextHeight > 0) GetTextInfo();
     }
-
     //设置字体大小
     public final void setTextSize(float size) {
-        if (size != paint.getTextSize()) {
+        if (size != paint.getTextSize()){
             mFontSize = size;
             if (mTextHeight > 0) GetTextInfo();
         }
     }
-
     //设置字体颜色
     public final void setTextColor(int color) {
         paint.setColor(color);
     }
-
     //设置字体颜色
     public final void setTextARGB(int a, int r, int g, int b) {
         paint.setARGB(a, r, g, b);
     }
-
     //设置字体
     public void setTypeface(Typeface tf) {
         if (this.paint.getTypeface() != tf) {
             this.paint.setTypeface(tf);
         }
     }
-
     //设置行宽
     public void setLineWidth(int LineWidth) {
         mLineWidth = LineWidth;
@@ -163,7 +169,7 @@ public class TextViewVertical extends View {
         //activity.getHandler().sendEmptyMessage(TestFontActivity.UPDATE);
     }
 
-    //计算文字行数和总宽
+    //计算文字列数和总宽
     private void GetTextInfo() {
         Log.v("TextViewVertical", "GetTextInfo");
         char ch;
@@ -239,4 +245,33 @@ public class TextViewVertical extends View {
 		}
 		return result;
 	}  */
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (firstClick != 0 && System.currentTimeMillis() - firstClick > 500) {
+                count = 0;
+            }
+            count++;
+            if (count == 1) {
+                firstClick = System.currentTimeMillis();
+            } else if (count == 2) {
+                lastClick = System.currentTimeMillis();
+                // 两次点击小于500ms 也就是连续点击
+                if (lastClick - firstClick < 500) {
+                    //Log.v("Double", "Double");
+                    count = 0;
+                    firstClick = 0;
+                    lastClick = 0;
+                    Activity activity=(Activity)context;
+                    activity.finish();
+                  activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                }
+            }
+
+        }
+        return false;
+    }
 }
+
+

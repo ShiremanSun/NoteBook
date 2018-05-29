@@ -129,11 +129,11 @@ public class AddActivity extends AppCompatActivity {
                 break;
         }
     }
-
     //*沉浸式状态栏*//**//*
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+
         if (hasFocus && Build.VERSION.SDK_INT >= 19) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(
