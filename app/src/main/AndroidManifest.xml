@@ -32,19 +32,22 @@
         <activity android:name=".open">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="QDnzMbbTHuKbnNSsRZS17PS4Lzz4bp7A" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
         <activity android:name=".AddActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".MonthActivity" />
         <activity android:name=".DayActivity" />
         <!--
@@ -54,14 +57,13 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <activity android:name=".LookActivity">
-        </activity>
-        <activity android:name=".YearActivity"
-            android:launchMode="singleTask">
-        </activity>
-        <activity android:name=".UpdateActivity">
 
-        </activity>
+        <activity android:name=".LookActivity"></activity>
+        <activity
+            android:name=".YearActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>
