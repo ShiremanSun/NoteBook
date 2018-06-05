@@ -7,6 +7,10 @@
 
 ![](images/2.png)
 
+自定义的竖向界面，感觉还比较美观
+
 ![](images/3.png)
 
 ![](images/4.png)
+
+![](images.video.mp4)
