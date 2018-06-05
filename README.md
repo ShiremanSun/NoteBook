@@ -3,10 +3,10 @@
 
 日记截图
 
-![Mou icon](images/1.png=100)
+![](images/1.png)
 
-![Mou icon](images/2.png=100)
+![](images/2.png=100)
 
-![Mou icon](images/3.png=100)
+![](images/3.png=100)
 
-![Mou icon](images/4.png=100)
+![](images/4.png=100)
