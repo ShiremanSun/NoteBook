@@ -1,20 +1,36 @@
 package com.example.droodsunny.memorybook.TextUtil;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.os.Bundle;
 
 import com.example.droodsunny.memorybook.Note;
+import com.example.droodsunny.memorybook.R;
 
 import org.litepal.LitePal;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by DroodSunny on 2017/9/27.
  */
 public class SetAppTypeface extends Application {
     public static Typeface typeFace;
     private SharedPreferences preferences;
+
+    //维护所有的Activity
+
+    private static List<Activity> mActivities=new ArrayList<>();
+
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,6 +38,7 @@ public class SetAppTypeface extends Application {
         LitePal.initialize(this);
         Initdata();
         setTypeface();
+        registerActivityListener();
     }
     public void setTypeface(){
         //华文彩云，加载外部字体assets/front/fonts/textK.ttf
@@ -84,5 +101,118 @@ public class SetAppTypeface extends Application {
 
     }
 
+
+    private void pushActivity(Activity activity){
+        mActivities.add(activity);
+    }
+
+    //移除指定Activity
+    private void popActivity(Activity activity){
+        mActivities.remove(activity);
+        activity=null;
+    }
+
+    //结束指定的Activity
+    public static void finishActivity(Activity activity){
+        if(mActivities==null||mActivities.isEmpty()){
+            return;
+        }
+        if (activity!=null){
+            mActivities.remove(activity);
+            activity.finish();
+            activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            activity=null;
+        }
+
+    }
+    //找到指定的Activity，因为寻找Activity肯定不能用实例寻找根据上下文寻找
+
+    public static Activity getActivity(Context context){
+        Activity activity=null;
+        if(mActivities!=null){
+            for(Activity activity1:mActivities){
+                if(activity1.equals(context)){
+                    activity=activity1;
+                    break;
+                }
+            }
+        }
+        return activity;
+    }
+    //根据类名找到Activity
+
+    public static Activity getActivityByClass(Class cls){
+        Activity activity=null;
+        if(mActivities!=null){
+            for(Activity activity1:mActivities){
+                if(activity1.getClass().equals(cls)){
+                    activity=activity1;
+                    break;
+                }
+            }
+        }
+        return activity;
+    }
+
+    //结束所有Activity
+    private  static void  finishAllActivity(){
+        if(mActivities==null){
+            return;
+        }
+        for(Activity activity:mActivities){
+            activity.finish();
+
+        }
+        mActivities.clear();
+    }
+
+    //退出程序
+    public static void exit(){
+        finishAllActivity();
+    }
+
+    private void registerActivityListener(){
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                pushActivity(activity);
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+              if(null==mActivities){
+                  return;
+              }
+              if(mActivities.contains(activity)){
+                  popActivity(activity);
+              }
+            }
+        });
+    }
 
 }

@@ -35,11 +35,12 @@
         android:layout_toEndOf="@+id/date" />
     <TextView
         android:ems="1"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:textSize="20sp"
         android:id="@+id/titlel"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true" />
    <HorizontalScrollView
        android:overScrollMode="never"
 

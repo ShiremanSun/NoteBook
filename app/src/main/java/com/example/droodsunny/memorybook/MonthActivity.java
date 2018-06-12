@@ -16,10 +16,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.droodsunny.memorybook.TextUtil.SetAppTypeface;
+
 
 import org.litepal.crud.DataSupport;
 
@@ -29,8 +27,8 @@ import static com.example.droodsunny.memorybook.R.id.monthRecycler;
 
 public class MonthActivity extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
-    public static MonthActivity monthActivity;
+
+
     private RecyclerView recyclerView;
     public List<Note> noteList = null;
     private String year;
@@ -40,18 +38,26 @@ public class MonthActivity extends AppCompatActivity {
     private long firstClick = 0;
 
     private long exitTime = 0;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT>=19){
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+
         setContentView(R.layout.activity_month);
 
-        monthActivity = this;
+
         textView = (TextView) findViewById(R.id.year);
         recyclerView = (RecyclerView) findViewById(monthRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -71,24 +77,10 @@ public class MonthActivity extends AppCompatActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
-    /*沉浸式状态栏*/
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
+
     public static void actionStart(Context context, Note note) {
         Intent intent = new Intent(context, MonthActivity.class);
         intent.putExtra("year", note.getYear());
@@ -121,7 +113,7 @@ public class MonthActivity extends AppCompatActivity {
                     //Log.v("Double", "Double");
                     count = 0;
                     firstClick = 0;
-                    lastClick = 0;
+
                     finish();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
@@ -153,17 +145,7 @@ public class MonthActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Month Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
+
 
     @Override
     public void onStart() {
@@ -171,8 +153,7 @@ public class MonthActivity extends AppCompatActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+
     }
 
     @Override
@@ -181,8 +162,7 @@ public class MonthActivity extends AppCompatActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+
     }
 
     @Override
@@ -192,9 +172,7 @@ public class MonthActivity extends AppCompatActivity {
                 Toast.makeText(MonthActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
-                YearActivity.yearActivity.finish();
-
+                SetAppTypeface.exit();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
             return true;
@@ -202,9 +180,10 @@ public class MonthActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
-        monthActivity=null;
     }
 }

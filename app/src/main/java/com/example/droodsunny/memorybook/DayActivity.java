@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.droodsunny.memorybook.TextUtil.SetAppTypeface;
+
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 public class DayActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    public static DayActivity dayActivity;
+
     public List<Note> noteList=null;
     private String month;
     private String year;
@@ -34,8 +36,18 @@ public class DayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT>=19){
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
         setContentView(R.layout.activity_day);
-        dayActivity=this;
+
 
 
         TextView text_year = (TextView) findViewById(R.id.year);
@@ -108,21 +120,7 @@ public class DayActivity extends AppCompatActivity {
         context.startActivity(intent);
 
     }
-    /*沉浸式状态栏*/
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
@@ -130,9 +128,7 @@ public class DayActivity extends AppCompatActivity {
                 Toast.makeText(DayActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
-                MonthActivity.monthActivity.finish();
-                YearActivity.yearActivity.finish();
+                SetAppTypeface.exit();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
             }
@@ -144,32 +140,18 @@ public class DayActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (firstClick != 0 && System.currentTimeMillis() - firstClick > 500) {
-                count = 0;
-            }
-            count++;
-            if (count == 1) {
-                firstClick = System.currentTimeMillis();
-            } else if (count == 2) {
-                lastClick = System.currentTimeMillis();
-                // 两次点击小于500ms 也就是连续点击
-                if (lastClick - firstClick < 500) {
-                    //Log.v("Double", "Double");
-                    count = 0;
-                    firstClick = 0;
-                    lastClick = 0;
-                    finish();
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                }
-            }
+                    if((System.currentTimeMillis()-exitTime)>500){
+                        exitTime=System.currentTimeMillis();
+                    }else {
+                        finish();
+                        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    }
+
+
 
         }
         return false;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dayActivity=null;
-    }
+
 }

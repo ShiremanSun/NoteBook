@@ -47,23 +47,28 @@
             android:process=":remote" />
 
         <activity android:name=".AddActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
         <activity android:name=".MonthActivity" />
         <activity android:name=".DayActivity" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".LookActivity"></activity>
+
+        <activity android:name=".LookActivity">
+
+        </activity>
         <activity
             android:name=".YearActivity"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".UpdateActivity"></activity>
-        <activity android:name=".Main2Activity"></activity>
+            android:launchMode="singleTask">
+
+        </activity>
+        <activity android:name=".UpdateActivity">
+
+        </activity>
     </application>
 
 </manifest>

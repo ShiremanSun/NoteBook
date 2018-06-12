@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.droodsunny.memorybook.TextUtil.SetAppTypeface;
+
 public class UpdateActivity extends AppCompatActivity {
 
     private int id;
@@ -47,7 +49,7 @@ public class UpdateActivity extends AppCompatActivity {
                 Log.d("id",id+"");
                 note.update(id);
                finish();
-               LookActivity.sLookActivity.finish();
+                SetAppTypeface.getActivityByClass(LookActivity.class).finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
             }

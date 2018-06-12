@@ -22,8 +22,8 @@ import java.util.List;
 
 public class LookActivity extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
-    public static LookActivity sLookActivity;
+
+
     private TextView date_text;
     private TextView location_text;
     private TextViewVertical content_text;
@@ -56,7 +56,7 @@ public class LookActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_look);
 
-        sLookActivity=this;
+
         date_text=(TextView)findViewById(R.id.date);
         location_text=(TextView)findViewById(R.id.location);
         content_text=(TextViewVertical)findViewById(R.id.content);
@@ -66,7 +66,7 @@ public class LookActivity extends AppCompatActivity {
 
         content_text.setTextSize(60);
 
-    WindowManager windowManager=getWindowManager();
+
         content_text.setLineWidth(100);
 
         final String date=getIntent().getStringExtra("year")+getIntent().getStringExtra("month")+getIntent().getStringExtra("day");
@@ -124,14 +124,7 @@ public class LookActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 
     }
-    /*沉浸式状态栏*/
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
 
-        }
-    }
     /*双击返回*/
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -180,4 +173,6 @@ public class LookActivity extends AppCompatActivity {
 
         super.onResume();
     }
+
+
 }
